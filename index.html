@@ -1583,7 +1583,9 @@ function renderReport(){
 
   /* ── frequency block ── */
   const freqDepts=[...new Set(Object.values(freqMap).map(v=>v.dept))];
-  const barChartHTML=shouldShowBarChart(freqDepts)?renderFreqBarChart(freqMap):'';
+  console.log('freqDepts:', freqDepts);
+  console.log('freqMap sample:', JSON.stringify(Object.values(freqMap).slice(0,2)));
+  const barChartHTML=renderFreqBarChart(freqMap);
   const maxFreq=Math.max(...Object.values(freqMap).map(v=>v.count),1);
   const nonChartEntries=Object.entries(freqMap).filter(([,info])=>!CHART_DEPTS.includes((info.dept||'').toLowerCase())).sort((a,b)=>b[1].count-a[1].count);
   const tableRows=nonChartEntries.map(([key,info])=>{
