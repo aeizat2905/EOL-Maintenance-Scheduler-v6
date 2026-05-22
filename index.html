@@ -1548,12 +1548,26 @@ function renderReport(){
   const done=filtered.filter(r=>r.status==='completed').length,wip=filtered.length-done;
   const freqRecs=rptFreqDept?filtered.filter(r=>r.dept===rptFreqDept):filtered;
   const freqMap={};
+
   freqRecs.forEach(r=>{
     const base=getEquipBaseName(r.equipment)||r.equipment||'Unknown';
+    const sec=getEquipSection(r.equipment)||'none';
     const pressesList=r.presses?(r.presses.split(',').map(p=>p.trim()).filter(Boolean)):[];
-    if(pressesList.length){pressesList.forEach(press=>{const key=base+'|||'+press;if(!freqMap[key])freqMap[key]={count:0,dept:r.dept,baseName:base,press};freqMap[key].count++;});}
-    else{const key=base+'|||';if(!freqMap[key])freqMap[key]={count:0,dept:r.dept,baseName:base,press:''};freqMap[key].count++;}
+    if(pressesList.length){
+      pressesList.forEach(press=>{
+        const key=base+'|||'+press;
+        if(!freqMap[key])freqMap[key]={count:0,sections:{top:0,bottom:0,both:0,none:0},dept:r.dept,baseName:base,press};
+        freqMap[key].count++;
+        freqMap[key].sections[sec]=(freqMap[key].sections[sec]||0)+1;
+      });
+    } else {
+      const key=base+'|||';
+      if(!freqMap[key])freqMap[key]={count:0,sections:{top:0,bottom:0,both:0,none:0},dept:r.dept,baseName:base,press:''};
+      freqMap[key].count++;
+      freqMap[key].sections[sec]=(freqMap[key].sections[sec]||0)+1;
+    }
   });
+
   const equips=[...new Set(filtered.map(r=>getEquipBaseName(r.equipment)).filter(Boolean))];
   const depts=[...new Set(filtered.map(r=>r.dept).filter(Boolean))];
   const topEntry=Object.entries(freqMap).sort((a,b)=>b[1].count-a[1].count)[0];
