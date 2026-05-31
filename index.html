@@ -236,11 +236,14 @@ body{font-family:'Barlow',sans-serif;background:var(--bg);color:var(--tx);min-he
 .pm-tab-btn.active{color:var(--pm-acc);}
 
 /* ── REPORT ENHANCEMENTS ── */
-.rpt-equip-chips{display:flex;flex-wrap:wrap;gap:6px;padding:4px 0;}
-.rpt-equip-chip{display:inline-flex;align-items:center;gap:5px;padding:5px 12px;background:var(--sur2);border:1.5px solid var(--bor);border-radius:20px;cursor:pointer;transition:all .15s;font-size:12px;font-weight:600;color:var(--tx2);user-select:none;white-space:nowrap;font-family:'Barlow Condensed',sans-serif;letter-spacing:.5px;}
+
+.rpt-equip-chips{display:flex;flex-direction:column;gap:6px;padding:7px;max-height:300px;overflow-y:auto;border:1px solid var(--bor);border-radius:10px;background:var(--bg);}
+.rpt-equip-chip{display:flex;align-items:center;gap:9px;padding:9px 13px;background:var(--sur2);border:1.5px solid var(--bor);border-radius:8px;cursor:pointer;transition:all .15s;font-size:13px;font-weight:600;color:var(--tx2);user-select:none;font-family:'Barlow',sans-serif;}
 .rpt-equip-chip:hover{border-color:rgba(240,165,0,.4);color:var(--tx);}
 .rpt-equip-chip.sel{background:rgba(240,165,0,.12);border-color:var(--acc);color:var(--acc);}
-.rpt-equip-chip.sel::before{content:'✓ ';font-size:10px;}
+.rpt-equip-chip::before{content:'';width:16px;height:16px;border:1.5px solid currentColor;border-radius:4px;flex-shrink:0;display:inline-flex;align-items:center;justify-content:center;font-size:11px;opacity:.4;}
+.rpt-equip-chip.sel::before{content:'✓';background:var(--acc);color:#000;border-color:var(--acc);opacity:1;}
+
 .section-filter-wrap{display:flex;gap:7px;flex-wrap:wrap;padding:4px 0;}
 .section-pill{padding:7px 16px;border-radius:20px;border:1.5px solid var(--bor);cursor:pointer;font-size:13px;font-weight:700;background:var(--sur2);color:var(--tx2);transition:all .15s;user-select:none;font-family:'Barlow Condensed',sans-serif;letter-spacing:.5px;display:inline-flex;align-items:center;gap:5px;}
 .section-pill:hover{border-color:rgba(240,165,0,.4);color:var(--tx);}
@@ -1374,16 +1377,33 @@ function toggleSectionPill(el){
   document.querySelectorAll('#sectionFilterWrap .section-pill').forEach(p=>{const s=p.dataset.section;p.className='section-pill';if(rptSelectedSections.has(s)){if(s==='all')p.classList.add('sel-all');else if(s==='top')p.classList.add('sel-top');else if(s==='bottom')p.classList.add('sel-bottom');else if(s==='both')p.classList.add('sel-both');else p.classList.add('sel');}});
   renderReport();
 }
+
+function rptSortEquip(list){
+  const isSIP=s=>{const t=String(s||'').trim().toUpperCase();return t.startsWith('SIP')&&!/^SIP[A-Z]/.test(t);};
+  return [...list].sort((a,b)=>{
+    const aS=isSIP(a),bS=isSIP(b);
+    if(aS!==bS)return aS?1:-1;
+    return String(a).localeCompare(String(b),undefined,{numeric:true,sensitivity:'base'});
+  });
+}
 function buildEquipChips(dept){
   const container=document.getElementById('rptEquipChips');if(!container)return;
   let equipList;
-  if(dept){const d=departments.find(x=>x.name===dept);equipList=d?d.equipment.map(e=>eqId(e)):[];const fromRecs=[...new Set(recs.filter(r=>r.dept===dept).map(r=>getEquipBaseName(r.equipment)).filter(Boolean))];fromRecs.forEach(eq=>{if(!equipList.includes(eq))equipList.push(eq);});}
-  else{equipList=[...new Set(recs.map(r=>getEquipBaseName(r.equipment)).filter(Boolean))].sort();}
-  if(!equipList.length){container.innerHTML='<span style="color:var(--tx2);font-size:12px;">No equipment found.</span>';return;}
+  if(dept){
+    const d=departments.find(x=>x.name===dept);
+    equipList=d?d.equipment.map(e=>eqId(e)):[];
+    const fromRecs=[...new Set(recs.filter(r=>r.dept===dept).map(r=>getEquipBaseName(r.equipment)).filter(Boolean))];
+    fromRecs.forEach(eq=>{if(!equipList.includes(eq))equipList.push(eq);});
+  }else{
+    equipList=[...new Set(recs.map(r=>getEquipBaseName(r.equipment)).filter(Boolean))];
+  }
+  equipList=rptSortEquip(equipList);
+  if(!equipList.length){container.innerHTML='<span style="color:var(--tx2);font-size:12px;padding:6px;">No equipment found.</span>';return;}
   const newSel=new Set([...rptSelectedEquip].filter(e=>equipList.includes(e)));rptSelectedEquip=newSel;
   container.innerHTML=equipList.map(eq=>{const sel=rptSelectedEquip.has(eq)||rptSelectedEquip.size===0;return`<div class="rpt-equip-chip${sel?' sel':''}" data-equip="${esc(eq)}" onclick="toggleEquipChip(this)">${esc(eq)}</div>`;}).join('');
   updateEquipCount();
 }
+
 function toggleEquipChip(el){const eq=el.dataset.equip;if(rptSelectedEquip.has(eq)){rptSelectedEquip.delete(eq);el.classList.remove('sel');}else{rptSelectedEquip.add(eq);el.classList.add('sel');}updateEquipCount();renderReport();}
 function selectAllEquip(){document.querySelectorAll('#rptEquipChips .rpt-equip-chip').forEach(el=>{rptSelectedEquip.add(el.dataset.equip);el.classList.add('sel');});updateEquipCount();renderReport();}
 function clearEquip(){rptSelectedEquip.clear();document.querySelectorAll('#rptEquipChips .rpt-equip-chip').forEach(el=>el.classList.remove('sel'));updateEquipCount();renderReport();}
