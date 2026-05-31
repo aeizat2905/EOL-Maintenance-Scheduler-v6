@@ -1811,15 +1811,13 @@ function openLB(thumb,view){
   img.removeAttribute('style');
   img.src='';
   img.onerror=()=>{if(img.src!==thumb&&thumb){img.src=thumb;}else{lb.classList.remove('show');toast('⚠️ Could not load image.');}};
-  img.src=view||thumb;
-  lb.classList.add('show');
-};
   img.onload=function(){img.style.opacity='1';};
   img.style.opacity='0';
   img.style.transition='opacity 0.2s';
-  img.src=src;
+  img.src=view||thumb;
   lb.classList.add('show');
 }
+
 function closeLB(){document.getElementById('lightbox').classList.remove('show');document.getElementById('lbImg').src='';}
 document.getElementById('lightbox').addEventListener('click',function(e){if(e.target===this)closeLB();});
 function load(m){document.getElementById('lTxt').textContent=m||'Loading...';document.getElementById('lOver').classList.add('show');}
