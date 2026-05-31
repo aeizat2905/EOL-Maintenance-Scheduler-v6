@@ -236,14 +236,16 @@ body{font-family:'Barlow',sans-serif;background:var(--bg);color:var(--tx);min-he
 .pm-tab-btn.active{color:var(--pm-acc);}
 
 /* ── REPORT ENHANCEMENTS ── */
-
+---------------
+.rpt-equip-search{width:100%;padding:9px 13px;background:var(--bg);border:1px solid var(--bor);border-radius:8px;color:var(--tx);font-family:'Barlow',sans-serif;font-size:13px;margin-bottom:7px;-webkit-appearance:none;appearance:none;}
+.rpt-equip-search:focus{outline:none;border-color:var(--acc);}
 .rpt-equip-chips{display:flex;flex-direction:column;gap:6px;padding:7px;max-height:300px;overflow-y:auto;border:1px solid var(--bor);border-radius:10px;background:var(--bg);}
 .rpt-equip-chip{display:flex;align-items:center;gap:9px;padding:9px 13px;background:var(--sur2);border:1.5px solid var(--bor);border-radius:8px;cursor:pointer;transition:all .15s;font-size:13px;font-weight:600;color:var(--tx2);user-select:none;font-family:'Barlow',sans-serif;}
 .rpt-equip-chip:hover{border-color:rgba(240,165,0,.4);color:var(--tx);}
 .rpt-equip-chip.sel{background:rgba(240,165,0,.12);border-color:var(--acc);color:var(--acc);}
 .rpt-equip-chip::before{content:'';width:16px;height:16px;border:1.5px solid currentColor;border-radius:4px;flex-shrink:0;display:inline-flex;align-items:center;justify-content:center;font-size:11px;opacity:.4;}
 .rpt-equip-chip.sel::before{content:'✓';background:var(--acc);color:#000;border-color:var(--acc);opacity:1;}
-
+-----------------------
 .section-filter-wrap{display:flex;gap:7px;flex-wrap:wrap;padding:4px 0;}
 .section-pill{padding:7px 16px;border-radius:20px;border:1.5px solid var(--bor);cursor:pointer;font-size:13px;font-weight:700;background:var(--sur2);color:var(--tx2);transition:all .15s;user-select:none;font-family:'Barlow Condensed',sans-serif;letter-spacing:.5px;display:inline-flex;align-items:center;gap:5px;}
 .section-pill:hover{border-color:rgba(240,165,0,.4);color:var(--tx);}
@@ -453,6 +455,7 @@ body{font-family:'Barlow',sans-serif;background:var(--bg);color:var(--tx);min-he
               <button onclick="clearEquip()" style="background:transparent;border:1px solid var(--bor);border-radius:6px;padding:3px 9px;color:var(--tx2);cursor:pointer;font-size:11px;font-weight:600;">None</button>
             </div>
           </div>
+          <input type="text" id="rptEquipSearch" class="rpt-equip-search" placeholder="🔍 Search equipment..." oninput="renderEquipChips()">
           <div class="rpt-equip-chips" id="rptEquipChips"><span style="color:var(--tx2);font-size:12px;">Select a department first, or all equipment shown below.</span></div>
         </div>
         <div style="display:flex;gap:8px;align-items:center;flex-wrap:wrap;padding-top:10px;border-top:1px solid var(--bor);">
@@ -1386,6 +1389,16 @@ function rptSortEquip(list){
     return String(a).localeCompare(String(b),undefined,{numeric:true,sensitivity:'base'});
   });
 }
+
+let rptEquipFullList=[];
+function rptSortEquip(list){
+  const isSIP=s=>{const t=String(s||'').trim().toUpperCase();return t.startsWith('SIP')&&!/^SIP[A-Z]/.test(t);};
+  return [...list].sort((a,b)=>{
+    const aS=isSIP(a),bS=isSIP(b);
+    if(aS!==bS)return aS?1:-1;
+    return String(a).localeCompare(String(b),undefined,{numeric:true,sensitivity:'base'});
+  });
+}
 function buildEquipChips(dept){
   const container=document.getElementById('rptEquipChips');if(!container)return;
   let equipList;
@@ -1397,10 +1410,17 @@ function buildEquipChips(dept){
   }else{
     equipList=[...new Set(recs.map(r=>getEquipBaseName(r.equipment)).filter(Boolean))];
   }
-  equipList=rptSortEquip(equipList);
-  if(!equipList.length){container.innerHTML='<span style="color:var(--tx2);font-size:12px;padding:6px;">No equipment found.</span>';return;}
-  const newSel=new Set([...rptSelectedEquip].filter(e=>equipList.includes(e)));rptSelectedEquip=newSel;
-  container.innerHTML=equipList.map(eq=>{const sel=rptSelectedEquip.has(eq)||rptSelectedEquip.size===0;return`<div class="rpt-equip-chip${sel?' sel':''}" data-equip="${esc(eq)}" onclick="toggleEquipChip(this)">${esc(eq)}</div>`;}).join('');
+  rptEquipFullList=rptSortEquip(equipList);
+  const newSel=new Set([...rptSelectedEquip].filter(e=>rptEquipFullList.includes(e)));rptSelectedEquip=newSel;
+  renderEquipChips();
+}
+function renderEquipChips(){
+  const container=document.getElementById('rptEquipChips');if(!container)return;
+  const search=(document.getElementById('rptEquipSearch')?.value||'').toLowerCase().trim();
+  if(!rptEquipFullList.length){container.innerHTML='<span style="color:var(--tx2);font-size:12px;padding:6px;">No equipment found.</span>';updateEquipCount();return;}
+  const shown=search?rptEquipFullList.filter(eq=>eq.toLowerCase().includes(search)):rptEquipFullList;
+  if(!shown.length){container.innerHTML='<span style="color:var(--tx2);font-size:12px;padding:6px;">No match for "'+esc(search)+'"</span>';updateEquipCount();return;}
+  container.innerHTML=shown.map(eq=>{const sel=rptSelectedEquip.has(eq)||rptSelectedEquip.size===0;return`<div class="rpt-equip-chip${sel?' sel':''}" data-equip="${esc(eq)}" onclick="toggleEquipChip(this)">${esc(eq)}</div>`;}).join('');
   updateEquipCount();
 }
 
