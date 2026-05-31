@@ -1805,7 +1805,7 @@ async function pmConfirmDone(){
    MODALS / UTILS
 ══════════════════════════════════════════ */
 function closeMod(id){document.getElementById(id).classList.remove('show');}
-function openLB(thumb,view){document.getElementById('lbImg').src=thumb||view;document.getElementById('lightbox').classList.add('show');}
+function openLB(thumb,view){document.getElementById('lbImg').src=view||thumb;document.getElementById('lightbox').classList.add('show');}
 function closeLB(){document.getElementById('lightbox').classList.remove('show');document.getElementById('lbImg').src='';}
 document.getElementById('lightbox').addEventListener('click',function(e){if(e.target===this)closeLB();});
 function load(m){document.getElementById('lTxt').textContent=m||'Loading...';document.getElementById('lOver').classList.add('show');}
