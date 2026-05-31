@@ -1386,16 +1386,9 @@ function rptSortEquip(list){
 function buildEquipChips(dept){
   const container=document.getElementById('rptEquipChips');if(!container)return;
   let equipList;
-  if(dept){
-    const d=departments.find(x=>x.name===dept);
-    equipList=d?d.equipment.map(e=>eqId(e)):[];
-    const fromRecs=[...new Set(recs.filter(r=>r.dept===dept).map(r=>getEquipBaseName(r.equipment)).filter(Boolean))];
-    fromRecs.forEach(eq=>{if(!equipList.includes(eq))equipList.push(eq);});
-  }else{
-    equipList=[...new Set(recs.map(r=>getEquipBaseName(r.equipment)).filter(Boolean))];
-  }
-  equipList=rptSortEquip(equipList);
-  if(!equipList.length){container.innerHTML='<span style="color:var(--tx2);font-size:12px;padding:6px;">No equipment found.</span>';return;}
+  if(dept){const d=departments.find(x=>x.name===dept);equipList=d?d.equipment.map(e=>eqId(e)):[];const fromRecs=[...new Set(recs.filter(r=>r.dept===dept).map(r=>getEquipBaseName(r.equipment)).filter(Boolean))];fromRecs.forEach(eq=>{if(!equipList.includes(eq))equipList.push(eq);});}
+  else{equipList=[...new Set(recs.map(r=>getEquipBaseName(r.equipment)).filter(Boolean))].sort();}
+  if(!equipList.length){container.innerHTML='<span style="color:var(--tx2);font-size:12px;">No equipment found.</span>';return;}
   const newSel=new Set([...rptSelectedEquip].filter(e=>equipList.includes(e)));rptSelectedEquip=newSel;
   container.innerHTML=equipList.map(eq=>{const sel=rptSelectedEquip.has(eq)||rptSelectedEquip.size===0;return`<div class="rpt-equip-chip${sel?' sel':''}" data-equip="${esc(eq)}" onclick="toggleEquipChip(this)">${esc(eq)}</div>`;}).join('');
   updateEquipCount();
