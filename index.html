@@ -845,9 +845,9 @@ function dateToFiscalWeek(dateStr){
   return null;
 }
 
-const CURRENT_WK=detectCurrentWeek();
-const CURRENT_WKNUM=CURRENT_WK-600;
-function getWk(fwk){return CALENDAR.find(w=>w.wk===fwk);}
+   const CURRENT_WK=(()=>{const t=todayMYT();...})();
+   const CURRENT_WKNUM=CURRENT_WK-FY_BASE;
+   function getWk(fwk){const fy=2000+Math.floor(fwk/100)+20;...}
 
 const PM_VALID_TYPES=['Quarterly Maintenance','Half-Yearly Maintenance'];
 
