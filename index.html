@@ -236,7 +236,6 @@ body{font-family:'Barlow',sans-serif;background:var(--bg);color:var(--tx);min-he
 .pm-tab-btn.active{color:var(--pm-acc);}
 
 /* ── REPORT ENHANCEMENTS ── */
----------------
 .rpt-equip-search{width:100%;padding:9px 13px;background:var(--bg);border:1px solid var(--bor);border-radius:8px;color:var(--tx);font-family:'Barlow',sans-serif;font-size:13px;margin-bottom:7px;-webkit-appearance:none;appearance:none;}
 .rpt-equip-search:focus{outline:none;border-color:var(--acc);}
 .rpt-equip-chips{display:flex;flex-direction:column;gap:6px;padding:7px;max-height:300px;overflow-y:auto;border:1px solid var(--bor);border-radius:10px;background:var(--bg);}
@@ -245,7 +244,6 @@ body{font-family:'Barlow',sans-serif;background:var(--bg);color:var(--tx);min-he
 .rpt-equip-chip.sel{background:rgba(240,165,0,.12);border-color:var(--acc);color:var(--acc);}
 .rpt-equip-chip::before{content:'';width:16px;height:16px;border:1.5px solid currentColor;border-radius:4px;flex-shrink:0;display:inline-flex;align-items:center;justify-content:center;font-size:11px;opacity:.4;}
 .rpt-equip-chip.sel::before{content:'✓';background:var(--acc);color:#000;border-color:var(--acc);opacity:1;}
------------------------
 .section-filter-wrap{display:flex;gap:7px;flex-wrap:wrap;padding:4px 0;}
 .section-pill{padding:7px 16px;border-radius:20px;border:1.5px solid var(--bor);cursor:pointer;font-size:13px;font-weight:700;background:var(--sur2);color:var(--tx2);transition:all .15s;user-select:none;font-family:'Barlow Condensed',sans-serif;letter-spacing:.5px;display:inline-flex;align-items:center;gap:5px;}
 .section-pill:hover{border-color:rgba(240,165,0,.4);color:var(--tx);}
@@ -500,7 +498,7 @@ body{font-family:'Barlow',sans-serif;background:var(--bg);color:var(--tx);min-he
       <div id="pm-molds-list" style="display:grid;gap:8px;"></div>
     </div>
     <div class="sec" id="sec-pm-calendar">
-      <div class="sec-hdr"><div class="sec-t">PM <span class="pm">Calendar</span> — FY2026</div></div>
+      <div class="sec-hdr"><div class="sec-t">PM <span class="pm">Calendar</span> — <span id="pmCalFY"></span></div></div>
       <div id="pm-qtr-tabs" style="display:flex;gap:8px;margin-bottom:20px;flex-wrap:wrap;"></div>
       <div id="pm-calendar-content"></div>
     </div>
@@ -707,62 +705,63 @@ const PM_SCHED_SEEDS={
 };
 
 /* ══════════════════════════════════════════
-   FISCAL CALENDAR FY2026
+   FISCAL CALENDAR – AUTO-GENERATED (FY starts Sunday nearest 1 Nov)
 ══════════════════════════════════════════ */
-const CALENDAR=[
-  {wk:601,wkNum:1, qtr:"1Q26",mth:"NOV",period:"P1", sun:2, mon:3, tue:4, wed:5, thu:6, fri:7, sat:8},
-  {wk:602,wkNum:2, qtr:"1Q26",mth:"NOV",period:"P1", sun:9, mon:10,tue:11,wed:12,thu:13,fri:14,sat:15},
-  {wk:603,wkNum:3, qtr:"1Q26",mth:"NOV",period:"P1", sun:16,mon:17,tue:18,wed:19,thu:20,fri:21,sat:22},
-  {wk:604,wkNum:4, qtr:"1Q26",mth:"NOV",period:"P1", sun:23,mon:24,tue:25,wed:26,thu:27,fri:28,sat:29},
-  {wk:605,wkNum:5, qtr:"1Q26",mth:"DEC",period:"P2", sun:30,mon:1, tue:2, wed:3, thu:4, fri:5, sat:6},
-  {wk:606,wkNum:6, qtr:"1Q26",mth:"DEC",period:"P2", sun:7, mon:8, tue:9, wed:10,thu:11,fri:12,sat:13},
-  {wk:607,wkNum:7, qtr:"1Q26",mth:"DEC",period:"P2", sun:14,mon:15,tue:16,wed:17,thu:18,fri:19,sat:20},
-  {wk:608,wkNum:8, qtr:"1Q26",mth:"DEC",period:"P2", sun:21,mon:22,tue:23,wed:24,thu:25,fri:26,sat:27},
-  {wk:609,wkNum:9, qtr:"1Q26",mth:"JAN",period:"P3", sun:28,mon:29,tue:30,wed:31,thu:1, fri:2, sat:3},
-  {wk:610,wkNum:10,qtr:"1Q26",mth:"JAN",period:"P3", sun:4, mon:5, tue:6, wed:7, thu:8, fri:9, sat:10},
-  {wk:611,wkNum:11,qtr:"1Q26",mth:"JAN",period:"P3", sun:11,mon:12,tue:13,wed:14,thu:15,fri:16,sat:17},
-  {wk:612,wkNum:12,qtr:"1Q26",mth:"JAN",period:"P3", sun:18,mon:19,tue:20,wed:21,thu:22,fri:23,sat:24},
-  {wk:613,wkNum:13,qtr:"1Q26",mth:"JAN",period:"P3", sun:25,mon:26,tue:27,wed:28,thu:29,fri:30,sat:31},
-  {wk:614,wkNum:14,qtr:"2Q26",mth:"FEB",period:"P4", sun:1, mon:2, tue:3, wed:4, thu:5, fri:6, sat:7},
-  {wk:615,wkNum:15,qtr:"2Q26",mth:"FEB",period:"P4", sun:8, mon:9, tue:10,wed:11,thu:12,fri:13,sat:14},
-  {wk:616,wkNum:16,qtr:"2Q26",mth:"FEB",period:"P4", sun:15,mon:16,tue:17,wed:18,thu:19,fri:20,sat:21},
-  {wk:617,wkNum:17,qtr:"2Q26",mth:"FEB",period:"P4", sun:22,mon:23,tue:24,wed:25,thu:26,fri:27,sat:28},
-  {wk:618,wkNum:18,qtr:"2Q26",mth:"MAR",period:"P5", sun:1, mon:2, tue:3, wed:4, thu:5, fri:6, sat:7},
-  {wk:619,wkNum:19,qtr:"2Q26",mth:"MAR",period:"P5", sun:8, mon:9, tue:10,wed:11,thu:12,fri:13,sat:14},
-  {wk:620,wkNum:20,qtr:"2Q26",mth:"MAR",period:"P5", sun:15,mon:16,tue:17,wed:18,thu:19,fri:20,sat:21},
-  {wk:621,wkNum:21,qtr:"2Q26",mth:"MAR",period:"P5", sun:22,mon:23,tue:24,wed:25,thu:26,fri:27,sat:28},
-  {wk:622,wkNum:22,qtr:"2Q26",mth:"APR",period:"P6", sun:29,mon:30,tue:31,wed:1, thu:2, fri:3, sat:4},
-  {wk:623,wkNum:23,qtr:"2Q26",mth:"APR",period:"P6", sun:5, mon:6, tue:7, wed:8, thu:9, fri:10,sat:11},
-  {wk:624,wkNum:24,qtr:"2Q26",mth:"APR",period:"P6", sun:12,mon:13,tue:14,wed:15,thu:16,fri:17,sat:18},
-  {wk:625,wkNum:25,qtr:"2Q26",mth:"APR",period:"P6", sun:19,mon:20,tue:21,wed:22,thu:23,fri:24,sat:25},
-  {wk:626,wkNum:26,qtr:"2Q26",mth:"APR",period:"P6", sun:26,mon:27,tue:28,wed:29,thu:30,fri:1, sat:2},
-  {wk:627,wkNum:27,qtr:"3Q26",mth:"MAY",period:"P7", sun:3, mon:4, tue:5, wed:6, thu:7, fri:8, sat:9},
-  {wk:628,wkNum:28,qtr:"3Q26",mth:"MAY",period:"P7", sun:10,mon:11,tue:12,wed:13,thu:14,fri:15,sat:16},
-  {wk:629,wkNum:29,qtr:"3Q26",mth:"MAY",period:"P7", sun:17,mon:18,tue:19,wed:20,thu:21,fri:22,sat:23},
-  {wk:630,wkNum:30,qtr:"3Q26",mth:"MAY",period:"P7", sun:24,mon:25,tue:26,wed:27,thu:28,fri:29,sat:30},
-  {wk:631,wkNum:31,qtr:"3Q26",mth:"JUN",period:"P8", sun:31,mon:1, tue:2, wed:3, thu:4, fri:5, sat:6},
-  {wk:632,wkNum:32,qtr:"3Q26",mth:"JUN",period:"P8", sun:7, mon:8, tue:9, wed:10,thu:11,fri:12,sat:13},
-  {wk:633,wkNum:33,qtr:"3Q26",mth:"JUN",period:"P8", sun:14,mon:15,tue:16,wed:17,thu:18,fri:19,sat:20},
-  {wk:634,wkNum:34,qtr:"3Q26",mth:"JUN",period:"P8", sun:21,mon:22,tue:23,wed:24,thu:25,fri:26,sat:27},
-  {wk:635,wkNum:35,qtr:"3Q26",mth:"JUL",period:"P9", sun:28,mon:29,tue:30,wed:1, thu:2, fri:3, sat:4},
-  {wk:636,wkNum:36,qtr:"3Q26",mth:"JUL",period:"P9", sun:5, mon:6, tue:7, wed:8, thu:9, fri:10,sat:11},
-  {wk:637,wkNum:37,qtr:"3Q26",mth:"JUL",period:"P9", sun:12,mon:13,tue:14,wed:15,thu:16,fri:17,sat:18},
-  {wk:638,wkNum:38,qtr:"3Q26",mth:"JUL",period:"P9", sun:19,mon:20,tue:21,wed:22,thu:23,fri:24,sat:25},
-  {wk:639,wkNum:39,qtr:"3Q26",mth:"JUL",period:"P9", sun:26,mon:27,tue:28,wed:29,thu:30,fri:31,sat:1},
-  {wk:640,wkNum:40,qtr:"4Q26",mth:"AUG",period:"P10",sun:2, mon:3, tue:4, wed:5, thu:6, fri:7, sat:8},
-  {wk:641,wkNum:41,qtr:"4Q26",mth:"AUG",period:"P10",sun:9, mon:10,tue:11,wed:12,thu:13,fri:14,sat:15},
-  {wk:642,wkNum:42,qtr:"4Q26",mth:"AUG",period:"P10",sun:16,mon:17,tue:18,wed:19,thu:20,fri:21,sat:22},
-  {wk:643,wkNum:43,qtr:"4Q26",mth:"AUG",period:"P10",sun:23,mon:24,tue:25,wed:26,thu:27,fri:28,sat:29},
-  {wk:644,wkNum:44,qtr:"4Q26",mth:"SEP",period:"P11",sun:30,mon:31,tue:1, wed:2, thu:3, fri:4, sat:5},
-  {wk:645,wkNum:45,qtr:"4Q26",mth:"SEP",period:"P11",sun:6, mon:7, tue:8, wed:9, thu:10,fri:11,sat:12},
-  {wk:646,wkNum:46,qtr:"4Q26",mth:"SEP",period:"P11",sun:13,mon:14,tue:15,wed:16,thu:17,fri:18,sat:19},
-  {wk:647,wkNum:47,qtr:"4Q26",mth:"SEP",period:"P11",sun:20,mon:21,tue:22,wed:23,thu:24,fri:25,sat:26},
-  {wk:648,wkNum:48,qtr:"4Q26",mth:"OCT",period:"P12",sun:27,mon:28,tue:29,wed:30,thu:1, fri:2, sat:3},
-  {wk:649,wkNum:49,qtr:"4Q26",mth:"OCT",period:"P12",sun:4, mon:5, tue:6, wed:7, thu:8, fri:9, sat:10},
-  {wk:650,wkNum:50,qtr:"4Q26",mth:"OCT",period:"P12",sun:11,mon:12,tue:13,wed:14,thu:15,fri:16,sat:17},
-  {wk:651,wkNum:51,qtr:"4Q26",mth:"OCT",period:"P12",sun:18,mon:19,tue:20,wed:21,thu:22,fri:23,sat:24},
-  {wk:652,wkNum:52,qtr:"4Q26",mth:"OCT",period:"P12",sun:25,mon:26,tue:27,wed:28,thu:29,fri:30,sat:31},
-];
+const DAY_MS=86400000;
+const FY_MONTHS=['NOV','DEC','JAN','FEB','MAR','APR','MAY','JUN','JUL','AUG','SEP','OCT'];
+const FY_PERIOD_WEEKS=[4,4,5,4,4,5,4,4,5,4,4,5];          // 4-4-5 pattern = 52 weeks
+
+function fyBase(fy){return(fy%100-20)*100;}               // FY26→600, FY27→700, FY28→800
+function fyStartMs(fy){                                    // fy = e.g. 2027 (starts ~1 Nov 2026)
+  const nov1=Date.UTC(fy-1,10,1);
+  const dow=new Date(nov1).getUTCDay();                    // 0=Sun
+  return nov1+(dow<=3?-dow:7-dow)*DAY_MS;                  // nearest Sunday
+}
+function buildFYCalendar(fy){
+  const start=fyStartMs(fy);
+  const total=Math.round((fyStartMs(fy+1)-start)/(7*DAY_MS));   // 52 or 53
+  const base=fyBase(fy),yy=fy%100,out=[];
+  let wkNum=0;
+  FY_PERIOD_WEEKS.forEach((n,pi)=>{
+    const count=(pi===11&&total>52)?n+(total-52):n;
+    for(let i=0;i<count;i++){
+      wkNum++;
+      const s=start+(wkNum-1)*7*DAY_MS;
+      const d=k=>new Date(s+k*DAY_MS).getUTCDate();
+      out.push({fy,wk:base+wkNum,wkNum,qtr:(Math.floor(pi/3)+1)+'Q'+yy,mth:FY_MONTHS[pi],period:'P'+(pi+1),
+        sun:d(0),mon:d(1),tue:d(2),wed:d(3),thu:d(4),fri:d(5),sat:d(6),startMs:s,endMs:s+6*DAY_MS});
+    }
+  });
+  return out;
+}
+const CAL_CACHE={};
+function getFYCal(fy){return CAL_CACHE[fy]||(CAL_CACHE[fy]=buildFYCalendar(fy));}
+function todayMYT(){const n=new Date(Date.now()+8*3600000);return Date.UTC(n.getUTCFullYear(),n.getUTCMonth(),n.getUTCDate());}
+function detectCurrentFY(){
+  const t=todayMYT(),y=new Date(t).getUTCFullYear();
+  for(const fy of [y,y+1]){if(t>=fyStartMs(fy)&&t<fyStartMs(fy+1))return fy;}
+  return y+1;
+}
+/* find the calendar week (any nearby FY) that contains a yyyy-mm-dd date */
+function dateToFiscal(dateStr){
+  if(!dateStr)return null;
+  const p=dateStr.split('-');if(p.length<3)return null;
+  const t=Date.UTC(+p[0],+p[1]-1,+p[2]);
+  for(const fy of [CURRENT_FY-1,CURRENT_FY,CURRENT_FY+1]){
+    const w=getFYCal(fy).find(w=>t>=w.startMs&&t<=w.endMs);
+    if(w)return w;
+  }
+  return null;
+}
+
+const CURRENT_FY=detectCurrentFY();          // e.g. 2027
+const FY2=CURRENT_FY%100;                    // e.g. 27
+const FY_BASE=fyBase(CURRENT_FY);            // e.g. 700
+const CALENDAR=getFYCal(CURRENT_FY);
+const CURRENT_WK=(()=>{const t=todayMYT();const w=CALENDAR.find(w=>t>=w.startMs&&t<=w.endMs);return w?w.wk:CALENDAR[0].wk;})();
+const CURRENT_WKNUM=CURRENT_WK-FY_BASE;
+function getWk(fwk){const fy=2000+Math.floor(fwk/100)+20;return getFYCal(fy).find(w=>w.wk===fwk);}
+pmActiveQtr=(CALENDAR.find(w=>w.wk===CURRENT_WK)||CALENDAR[0]).qtr;   // open calendar on current quarter
 
 /* ══════════════════════════════════════════
    FISCAL WEEK DATE RESOLUTION
@@ -860,11 +859,10 @@ async function pmAutoSyncFromRecord(record){
   const mtype=(record.maintenanceType||'').trim();
   if(!PM_VALID_TYPES.includes(mtype))return;
   const equipName=pmStripSectionSuffix(record.equipment||'');
-  if(!equipName)return;
-  if(!record.dateStart)return;
-  const fiscalWk=dateToFiscalWeek(record.dateStart);
-  if(!fiscalWk)return;
-  const recordWkNum=fiscalWk-600;
+  if(!equipName||!record.dateStart)return;
+  const recWk=dateToFiscal(record.dateStart);
+  if(!recWk)return;
+  const recFY2=recWk.fy%100,recWkNum=recWk.wkNum,recBase=fyBase(recWk.fy);
   const allTypeIds=PM_SCHED_TYPES.map(t=>t.id);
   const orderedTypes=currentSchedType?[currentSchedType.id,...allTypeIds.filter(id=>id!==currentSchedType.id)]:allTypeIds;
   for(const typeId of orderedTypes){
@@ -873,17 +871,23 @@ async function pmAutoSyncFromRecord(record){
     else{try{const pmData=await jsonp({action:'getPMData',typeId},20000);if(!pmData||pmData.status==='error')continue;moldsToSearch=(pmData.molds||[]).map(m=>({...m,scheduledWeeks:m.scheduledWeeks||[]}));tempHistory=pmData.history||[];}catch(e){continue;}}
     const mold=moldsToSearch.find(m=>m.name===equipName);
     if(!mold||!mold.scheduledWeeks.length)continue;
-    const doneSets=new Set(tempHistory.filter(h=>h.moldId===mold.id&&h.fiscalYear===26).map(h=>h.scheduledWkNum));
+    const doneSets=new Set(tempHistory.filter(h=>h.moldId===mold.id&&h.fiscalYear===recFY2).map(h=>h.scheduledWkNum));
     const pendingWeeks=mold.scheduledWeeks.filter(wk=>!doneSets.has(wk));
     if(!pendingWeeks.length)continue;
     const BUFFER=2;let matchedWkNum=null,bestDiff=Infinity;
-    for(const wk of pendingWeeks){const diff=Math.abs(wk-recordWkNum);const diffWrapped=Math.min(diff,52-diff);if(diffWrapped<=BUFFER&&diffWrapped<bestDiff){bestDiff=diffWrapped;matchedWkNum=wk;}}
+    for(const wk of pendingWeeks){const diff=Math.abs(wk-recWkNum);if(diff<=BUFFER&&diff<bestDiff){bestDiff=diff;matchedWkNum=wk;}}
     if(matchedWkNum===null)continue;
-    if(doneSets.has(matchedWkNum))continue;
-    const matchedFiscalWk=600+matchedWkNum;
-    const histEntry={moldId:mold.id,moldName:mold.name,moldGroup:mold.group||'',scheduledWkNum:matchedWkNum,fiscalYear:26,fiscalWeek:matchedFiscalWk,doneDate:record.dateStart,doneBy:record.pic||'—',notes:'[AUTO] '+mtype+(matchedWkNum!==recordWkNum?' (nearest wk)':''),recordedAt:new Date().toLocaleDateString('en-MY'),source:'eol'};
-    try{const r=await jsonp({action:'pmAppendHistory',typeId,hMoldId:String(mold.id),hMoldName:mold.name,hMoldGroup:mold.group||'',hSchedWkNum:String(matchedWkNum),hFiscalYear:'26',hFiscalWeek:String(matchedFiscalWk),hDoneDate:record.dateStart,hDoneBy:record.pic||'',hNotes:'[AUTO] '+mtype+(matchedWkNum!==recordWkNum?' (nearest wk)':''),hRecordedAt:new Date().toLocaleDateString('en-MY'),hSource:'eol'},20000);
-      if(r&&r.status==='ok'){if(currentSchedType&&currentSchedType.id===typeId){pmHistory.push(histEntry);if(pmActiveSec==='pm-dashboard')renderPMDashboard();if(pmActiveSec==='pm-molds')renderPMMolds();if(pmActiveSec==='pm-history')renderPMHistory();}const wkInfo=getWk(matchedFiscalWk);toast('🔗 PM Auto-Sync: '+equipName+' WK'+matchedFiscalWk+(wkInfo?' ('+wkInfo.mth+')':'')+' marked ✅ Done!');}
+    const matchedFiscalWk=recBase+matchedWkNum;
+    const noteTxt='[AUTO] '+mtype+(matchedWkNum!==recWkNum?' (nearest wk)':'');
+    const nowTxt=new Date().toLocaleDateString('en-MY');
+    const histEntry={moldId:mold.id,moldName:mold.name,moldGroup:mold.group||'',scheduledWkNum:matchedWkNum,fiscalYear:recFY2,fiscalWeek:matchedFiscalWk,doneDate:record.dateStart,doneBy:record.pic||'—',notes:noteTxt,recordedAt:nowTxt,source:'eol'};
+    try{
+      const r=await jsonp({action:'pmAppendHistory',typeId,hMoldId:String(mold.id),hMoldName:mold.name,hMoldGroup:mold.group||'',hSchedWkNum:String(matchedWkNum),hFiscalYear:String(recFY2),hFiscalWeek:String(matchedFiscalWk),hDoneDate:record.dateStart,hDoneBy:record.pic||'',hNotes:noteTxt,hRecordedAt:nowTxt,hSource:'eol'},20000);
+      if(r&&r.status==='ok'){
+        if(currentSchedType&&currentSchedType.id===typeId){pmHistory.push(histEntry);if(pmActiveSec==='pm-dashboard')renderPMDashboard();if(pmActiveSec==='pm-molds')renderPMMolds();if(pmActiveSec==='pm-history')renderPMHistory();}
+        const wkInfo=getWk(matchedFiscalWk);
+        toast('🔗 PM Auto-Sync: '+equipName+' WK'+matchedFiscalWk+(wkInfo?' ('+wkInfo.mth+')':'')+' marked ✅ Done!');
+      }
     }catch(e){console.warn('PM auto-sync failed:',e.message);}
     break;
   }
@@ -1477,37 +1481,44 @@ function rptDeptChips(cur,fn){const dn=[...new Set(recs.map(r=>r.dept).filter(Bo
 const CHART_DEPTS=['mold die','mold machine','transfer block'];
 function shouldShowBarChart(depts){return depts.some(d=>CHART_DEPTS.includes(d.toLowerCase()));}
 
+const ACT_KEYS=['assemble','dismantle','changepart','none'];
+const ACT_COL={assemble:'#30D158',dismantle:'#FF9500',changepart:'#58a6ff',none:'#6B7280'};
+const ACT_LBL={assemble:'🔩 Assemble',dismantle:'🔧 Dismantle',changepart:'🔄 Change Part',none:'Not set'};
+const SEC_KEYS=['top','bottom','both','none'];
+const SEC_COL={top:'#10b981',bottom:'#a78bfa',both:'#f0a500',none:'#58a6ff'};
+const SEC_LBL={top:'⬆ Top',bottom:'⬇ Bottom',both:'↕ Both',none:'No section'};
+let rptChartMode='activity';
+function setChartMode(m){rptChartMode=m;renderReport();}
+
 function renderFreqBarChart(freqMap){
   const byDept={};
-  Object.values(freqMap).forEach(info=>{const k=info.dept||'Unknown';if(!byDept[k])byDept[k]=[];byDept[k].push(info);});
+  Object.values(freqMap).forEach(info=>{const k=info.dept||'Unknown';(byDept[k]=byDept[k]||[]).push(info);});
   const chartDepts=Object.keys(byDept).filter(d=>CHART_DEPTS.includes(d.toLowerCase()));
   if(!chartDepts.length)return'';
 
-  const BAR_H=28,BAR_GAP=10,PAD_L=165,PAD_R=60,PAD_TOP=48,PAD_BOT=20;
+  const BAR_H=28,BAR_GAP=10,PAD_L=165,PAD_R=60,PAD_TOP=48,PAD_BOT=20,W=640;
   const ICON={'mold die':'🔩','mold machine':'🏗️','transfer block':'⚙️'};
   const isMoldDie=d=>d.toLowerCase()==='mold die';
 
-  /* section colours */
-  const SEC_COL={top:'#10b981',bottom:'#a78bfa',both:'#f0a500',none:'#58a6ff'};
-  const SEC_LBL={top:'⬆ Top',bottom:'⬇ Bottom',both:'↕ Both',none:'—'};
-  /* bar colours for non-mold-die */
-  const COLORS=['#f0a500','#FF9500','#58a6ff','#30D158','#a78bfa','#fb923c','#34d399','#f472b6'];
-
-  let html='';
+  let html=chartDepts.some(isMoldDie)?`
+    <div style="display:flex;gap:6px;align-items:center;margin-bottom:12px;flex-wrap:wrap;">
+      <span style="font-size:11px;font-weight:700;letter-spacing:1.5px;text-transform:uppercase;color:var(--tx2);">Mold Die breakdown:</span>
+      <div class="section-pill${rptChartMode==='activity'?' sel':''}" onclick="setChartMode('activity')">🔩 By Activity</div>
+      <div class="section-pill${rptChartMode==='section'?' sel':''}" onclick="setChartMode('section')">↕ By Section</div>
+    </div>`:'';
 
   chartDepts.forEach(dept=>{
     const entries=[...byDept[dept]].sort((a,b)=>b.count-a.count);
     const maxCount=Math.max(...entries.map(e=>e.count),1);
-    const W=640;
     const totalH=PAD_TOP+entries.length*(BAR_H+BAR_GAP)+PAD_BOT;
-    const moldDie=isMoldDie(dept);
+    const totalW=W-PAD_L-PAD_R;
+    const bySection=isMoldDie(dept)&&rptChartMode==='section';
+    const keys=bySection?SEC_KEYS:ACT_KEYS,col=bySection?SEC_COL:ACT_COL,lbl=bySection?SEC_LBL:ACT_LBL;
 
     let bars='',labels='',values='',gridLines='';
-
-    /* grid */
     const gridCount=Math.min(maxCount,5);
     for(let g=0;g<=gridCount;g++){
-      const x=PAD_L+Math.round((W-PAD_L-PAD_R)*g/gridCount);
+      const x=PAD_L+Math.round(totalW*g/gridCount);
       const gVal=Math.round(maxCount*g/gridCount);
       gridLines+=`<line x1="${x}" y1="${PAD_TOP-12}" x2="${x}" y2="${totalH-PAD_BOT}" stroke="#2a3441" stroke-width="1"/>`;
       gridLines+=`<text x="${x}" y="${PAD_TOP-15}" text-anchor="middle" fill="#4a5568" font-size="10" font-family="DM Mono,monospace">${gVal}</text>`;
@@ -1515,48 +1526,26 @@ function renderFreqBarChart(freqMap){
 
     entries.forEach((info,i)=>{
       const y=PAD_TOP+i*(BAR_H+BAR_GAP);
-      const totalW=W-PAD_L-PAD_R;
       const label=info.press?`${info.baseName} · ${info.press}`:info.baseName;
       const shortLabel=label.length>23?label.slice(0,22)+'…':label;
-      labels+=`<text x="${PAD_L-8}" y="${y+BAR_H/2+5}" text-anchor="end" fill="#8b949e" font-size="12" font-family="Barlow,sans-serif">${shortLabel}</text>`;
-
-      if(moldDie){
-        /* stacked bar: top | bottom | both | none */
-        const secs=['top','bottom','both','none'];
-        let xCursor=PAD_L;
-        secs.forEach(sec=>{
-          const cnt=(info.sections&&info.sections[sec])||0;
-          if(!cnt)return;
-          const segW=Math.max(2,Math.round(totalW*cnt/maxCount));
-          bars+=`<rect x="${xCursor}" y="${y}" width="${segW}" height="${BAR_H}" fill="${SEC_COL[sec]}" opacity="0.85">
-            <title>${SEC_LBL[sec]}: ${cnt}x</title>
-          </rect>`;
-          /* segment label if wide enough */
-          if(segW>28){
-            bars+=`<text x="${xCursor+segW/2}" y="${y+BAR_H/2+5}" text-anchor="middle" fill="#fff" font-size="10" font-weight="700" font-family="Barlow,sans-serif" opacity="0.9">${cnt}</text>`;
-          }
-          xCursor+=segW;
-        });
-        /* total label after bar */
-        values+=`<text x="${xCursor+6}" y="${y+BAR_H/2+5}" fill="#e6edf3" font-size="13" font-weight="700" font-family="Barlow Condensed,sans-serif">${info.count}x</text>`;
-      } else {
-        /* solid bar for mold machine / transfer block */
-        const col=COLORS[i%COLORS.length];
-        const barW=Math.max(4,Math.round(totalW*info.count/maxCount));
-        bars+=`<rect x="${PAD_L}" y="${y}" width="${barW}" height="${BAR_H}" rx="5" fill="${col}" opacity="0.85"/>`;
-        values+=`<text x="${PAD_L+barW+7}" y="${y+BAR_H/2+5}" fill="${col}" font-size="13" font-weight="700" font-family="Barlow Condensed,sans-serif">${info.count}x</text>`;
-      }
+      labels+=`<text x="${PAD_L-8}" y="${y+BAR_H/2+5}" text-anchor="end" fill="#8b949e" font-size="12" font-family="Barlow,sans-serif">${esc(shortLabel)}</text>`;
+      const data=bySection?info.sections:info.activities;
+      let x=PAD_L;
+      keys.forEach(k=>{
+        const cnt=(data&&data[k])||0;
+        if(!cnt)return;
+        const segW=Math.max(2,Math.round(totalW*cnt/maxCount));
+        bars+=`<rect x="${x}" y="${y}" width="${segW}" height="${BAR_H}" fill="${col[k]}" opacity="0.9"><title>${esc(label)} — ${esc(lbl[k])}: ${cnt}x</title></rect>`;
+        if(segW>22)bars+=`<text x="${x+segW/2}" y="${y+BAR_H/2+5}" text-anchor="middle" fill="#fff" font-size="11" font-weight="700" font-family="Barlow,sans-serif">${cnt}</text>`;
+        x+=segW;
+      });
+      values+=`<text x="${x+6}" y="${y+BAR_H/2+5}" fill="#e6edf3" font-size="13" font-weight="700" font-family="Barlow Condensed,sans-serif">${info.count}x</text>`;
     });
 
-    /* legend for mold die */
-    const legendHTML=moldDie?`
+    const legendHTML=`
       <div style="display:flex;gap:12px;flex-wrap:wrap;padding:8px 16px 12px;border-top:1px solid var(--bor);margin-top:4px;">
-        ${Object.entries(SEC_COL).map(([sec,col])=>`
-          <span style="display:inline-flex;align-items:center;gap:5px;font-size:12px;color:var(--tx2);">
-            <span style="width:12px;height:12px;border-radius:3px;background:${col};display:inline-block;opacity:0.85;flex-shrink:0;"></span>
-            ${SEC_LBL[sec]}
-          </span>`).join('')}
-      </div>`:'';
+        ${keys.map(k=>`<span style="display:inline-flex;align-items:center;gap:5px;font-size:12px;color:var(--tx2);"><span style="width:12px;height:12px;border-radius:3px;background:${col[k]};display:inline-block;opacity:0.9;flex-shrink:0;"></span>${lbl[k]}</span>`).join('')}
+      </div>`;
 
     html+=`
     <div style="background:var(--sur);border:1px solid var(--bor);border-radius:12px;margin-bottom:16px;overflow:hidden;">
@@ -1575,7 +1564,6 @@ function renderFreqBarChart(freqMap){
       ${legendHTML}
     </div>`;
   });
-
   return html;
 }
 
@@ -1592,20 +1580,14 @@ function renderReport(){
   freqRecs.forEach(r=>{
     const base=getEquipBaseName(r.equipment)||r.equipment||'Unknown';
     const sec=getEquipSection(r.equipment)||'none';
+    const act=ACT_KEYS.includes(r.pmActivity)?r.pmActivity:'none';
     const pressesList=r.presses?(r.presses.split(',').map(p=>p.trim()).filter(Boolean)):[];
-    if(pressesList.length){
-      pressesList.forEach(press=>{
-        const key=base+'|||'+press;
-        if(!freqMap[key])freqMap[key]={count:0,sections:{top:0,bottom:0,both:0,none:0},dept:r.dept,baseName:base,press};
-        freqMap[key].count++;
-        freqMap[key].sections[sec]=(freqMap[key].sections[sec]||0)+1;
-      });
-    } else {
-      const key=base+'|||';
-      if(!freqMap[key])freqMap[key]={count:0,sections:{top:0,bottom:0,both:0,none:0},dept:r.dept,baseName:base,press:''};
-      freqMap[key].count++;
-      freqMap[key].sections[sec]=(freqMap[key].sections[sec]||0)+1;
-    }
+    const bump=press=>{
+      const key=base+'|||'+press;
+      if(!freqMap[key])freqMap[key]={count:0,sections:{top:0,bottom:0,both:0,none:0},activities:{assemble:0,dismantle:0,changepart:0,none:0},dept:r.dept,baseName:base,press};
+      const f=freqMap[key];f.count++;f.sections[sec]++;f.activities[act]++;
+    };
+    if(pressesList.length)pressesList.forEach(bump);else bump('');
   });
 
   const equips=[...new Set(filtered.map(r=>getEquipBaseName(r.equipment)).filter(Boolean))];
@@ -1707,10 +1689,10 @@ async function saveChangePwd(){
 /* ══════════════════════════════════════════
    PM STATUS ENGINE
 ══════════════════════════════════════════ */
-function pmIsSlotDone(moldId,wkNum){return pmHistory.some(h=>h.moldId===moldId&&h.scheduledWkNum===wkNum&&h.fiscalYear===26);}
+function pmIsSlotDone(moldId,wkNum){return pmHistory.some(h=>h.moldId===moldId&&h.scheduledWkNum===wkNum&&h.fiscalYear===FY2);}
 function pmGetMoldStatus(m){
   const sw=m.scheduledWeeks||[];if(!sw.length)return{label:"NOT SET",color:"#6B7280",bg:"#6B728018",slots:[]};
-  const slots=sw.map(wkNum=>{const fwk=600+wkNum,done=pmIsSlotDone(m.id,wkNum);let slotStatus;if(done)slotStatus="DONE";else if(fwk<CURRENT_WK)slotStatus="OVERDUE";else if(fwk===CURRENT_WK)slotStatus="DUE NOW";else if(fwk===CURRENT_WK+1)slotStatus="DUE SOON";else slotStatus="UPCOMING";return{wkNum,fwk,done,slotStatus};});
+  const slots=sw.map(wkNum=>{const fwk=FY_BASE+wkNum,done=pmIsSlotDone(m.id,wkNum);let slotStatus;if(done)slotStatus="DONE";else if(fwk<CURRENT_WK)slotStatus="OVERDUE";else if(fwk===CURRENT_WK)slotStatus="DUE NOW";else if(fwk===CURRENT_WK+1)slotStatus="DUE SOON";else slotStatus="UPCOMING";return{wkNum,fwk,done,slotStatus};});
   const overdue=slots.filter(s=>s.slotStatus==="OVERDUE"),dueNow=slots.filter(s=>s.slotStatus==="DUE NOW"),dueSoon=slots.filter(s=>s.slotStatus==="DUE SOON");
   if(overdue.length>0)return{label:"OVERDUE",color:"#FF3B30",bg:"#FF3B3018",slots,overdue};if(dueNow.length>0)return{label:"DUE NOW",color:"#FF9500",bg:"#FF950018",slots,dueNow};if(dueSoon.length>0)return{label:"DUE SOON",color:"#FFCC00",bg:"#FFCC0018",slots,dueSoon};
   return{label:"OK",color:"#30D158",bg:"#30D15818",slots};
@@ -1768,10 +1750,11 @@ function pmFullMoldRow(m){
    PM CALENDAR
 ══════════════════════════════════════════ */
 function renderPMCalendar(){
+  const fyEl=document.getElementById('pmCalFY');if(fyEl)fyEl.textContent='FY'+CURRENT_FY;
   const qtrs=[...new Set(CALENDAR.map(w=>w.qtr))];
   document.getElementById('pm-qtr-tabs').innerHTML=qtrs.map(q=>`<button onclick="pmSetQtr('${q}')" class="qtr-btn${pmActiveQtr===q?' active':''}">${q}</button>`).join('');
   const qtrWeeks=CALENDAR.filter(w=>w.qtr===pmActiveQtr),months=[...new Set(qtrWeeks.map(w=>w.mth))];
-  document.getElementById('pm-calendar-content').innerHTML=months.map(mth=>{const mthWeeks=qtrWeeks.filter(w=>w.mth===mth);return`<div style="margin-bottom:22px;"><div style="color:var(--tx2);font-size:11px;font-weight:700;letter-spacing:2px;text-transform:uppercase;margin-bottom:10px;">${mth}</div><div style="display:grid;gap:8px;">${mthWeeks.map(w=>{const scheduled=pmMolds.filter(m=>(m.scheduledWeeks||[]).includes(w.wkNum));const isCur=w.wk===CURRENT_WK;const badges=scheduled.length?scheduled.map(m=>{const done=pmIsSlotDone(m.id,w.wkNum);const fwk=600+w.wkNum;let color='#9CA3AF';if(done)color='#30D158';else if(fwk<CURRENT_WK)color='#FF3B30';else if(fwk===CURRENT_WK)color='#FF9500';else if(fwk===CURRENT_WK+1)color='#FFCC00';return`<span style="background:${color}18;color:${color};font-size:11px;font-weight:600;padding:2px 8px;border-radius:16px;border:1px solid ${color}44;font-family:'DM Mono',monospace;white-space:nowrap;">${esc(m.name)}${done?' ✓':''}</span>`;}).join(''):`<span style="color:var(--tx2);font-size:12px;">No PM scheduled</span>`;return`<div class="pm-cal-week${isCur?' current-wk':''}"><div style="text-align:center;min-width:50px;"><div style="color:${isCur?'var(--pm-acc)':'var(--tx2)'};font-size:10px;font-weight:700;letter-spacing:1px;">WK${w.wk}</div><div style="color:${isCur?'var(--pm-acc)':'var(--tx)'};font-size:18px;font-weight:900;font-family:'Barlow Condensed',monospace;line-height:1.1;">Wk${w.wkNum}</div>${isCur?`<div style="color:var(--pm-acc);font-size:9px;font-weight:700;letter-spacing:1px;">NOW</div>`:''}</div><div style="flex:1;min-width:0;"><div style="color:var(--tx2);font-size:11px;margin-bottom:6px;">Sun ${w.sun} – Sat ${w.sat} · ${w.period}</div><div style="display:flex;gap:4px;flex-wrap:wrap;">${badges}</div></div></div>`;}).join('')}</div></div>`;}).join('');
+  document.getElementById('pm-calendar-content').innerHTML=months.map(mth=>{const mthWeeks=qtrWeeks.filter(w=>w.mth===mth);return`<div style="margin-bottom:22px;"><div style="color:var(--tx2);font-size:11px;font-weight:700;letter-spacing:2px;text-transform:uppercase;margin-bottom:10px;">${mth}</div><div style="display:grid;gap:8px;">${mthWeeks.map(w=>{const scheduled=pmMolds.filter(m=>(m.scheduledWeeks||[]).includes(w.wkNum));const isCur=w.wk===CURRENT_WK;const badges=scheduled.length?scheduled.map(m=>{const done=pmIsSlotDone(m.id,w.wkNum);const fwk=w.wk;let color='#9CA3AF';if(done)color='#30D158';else if(fwk<CURRENT_WK)color='#FF3B30';else if(fwk===CURRENT_WK)color='#FF9500';else if(fwk===CURRENT_WK+1)color='#FFCC00';return`<span style="background:${color}18;color:${color};font-size:11px;font-weight:600;padding:2px 8px;border-radius:16px;border:1px solid ${color}44;font-family:'DM Mono',monospace;white-space:nowrap;">${esc(m.name)}${done?' ✓':''}</span>`;}).join(''):`<span style="color:var(--tx2);font-size:12px;">No PM scheduled</span>`;return`<div class="pm-cal-week${isCur?' current-wk':''}"><div style="text-align:center;min-width:50px;"><div style="color:${isCur?'var(--pm-acc)':'var(--tx2)'};font-size:10px;font-weight:700;letter-spacing:1px;">WK${w.wk}</div><div style="color:${isCur?'var(--pm-acc)':'var(--tx)'};font-size:18px;font-weight:900;font-family:'Barlow Condensed',monospace;line-height:1.1;">Wk${w.wkNum}</div>${isCur?`<div style="color:var(--pm-acc);font-size:9px;font-weight:700;letter-spacing:1px;">NOW</div>`:''}</div><div style="flex:1;min-width:0;"><div style="color:var(--tx2);font-size:11px;margin-bottom:6px;">Sun ${w.sun} – Sat ${w.sat} · ${w.period}</div><div style="display:flex;gap:4px;flex-wrap:wrap;">${badges}</div></div></div>`;}).join('')}</div></div>`;}).join('');
 }
 function pmSetQtr(q){pmActiveQtr=q;renderPMCalendar();}
 
@@ -1785,7 +1768,7 @@ function renderPMHistory(){
   document.getElementById('pm-history-count').textContent=filtered.length===pmHistory.length?`${pmHistory.length} records`:`${filtered.length} of ${pmHistory.length}`;
   if(!pmHistory.length){el.innerHTML='<div class="empty"><div class="ei">📋</div><h4>No PM history yet</h4></div>';return;}
   if(!filtered.length){el.innerHTML='<div class="empty"><div class="ei">🔍</div><h4>No records match</h4></div>';return;}
-  el.innerHTML=[...filtered].reverse().map(h=>`<div class="pm-hist-row" style="border-left:3px solid #30D158;flex-wrap:wrap;gap:10px;align-items:flex-start;"><div style="width:32px;height:32px;border-radius:8px;background:#30D15822;display:flex;align-items:center;justify-content:center;color:#30D158;flex-shrink:0;font-size:14px;">✓</div><div style="flex:1;min-width:160px;"><div style="font-weight:700;font-family:'DM Mono',monospace;font-size:12px;">${esc(h.moldName)}</div>${h.moldGroup?`<div style="color:var(--tx2);font-size:11px;">${esc(h.moldGroup)}</div>`:''}<div style="color:var(--tx2);font-size:11px;margin-top:2px;">Scheduled: <b style="color:var(--tx);">Week ${h.scheduledWkNum||'—'}</b>${h.fiscalWeek?' (WK'+h.fiscalWeek+')':''}</div>${h.notes?`<div style="color:var(--tx2);font-size:11px;margin-top:3px;font-style:italic;">"${esc(h.notes)}"</div>`:''}</div><div style="text-align:right;flex-shrink:0;"><div style="color:#30D158;font-size:12px;font-weight:600;">PM Completed</div><div style="color:var(--tx);font-size:12px;margin-top:1px;">${esc(h.doneDate||'—')}</div><div style="color:var(--tx2);font-size:11px;margin-top:1px;">By: <b style="color:var(--tx2);">${esc(h.doneBy||'—')}</b></div></div></div>`).join('');
+  el.innerHTML=[...filtered].reverse().map(h=>`<div class="pm-hist-row" style="border-left:3px solid #30D158;flex-wrap:wrap;gap:10px;align-items:flex-start;"><div style="width:32px;height:32px;border-radius:8px;background:#30D15822;display:flex;align-items:center;justify-content:center;color:#30D158;flex-shrink:0;font-size:14px;">✓</div><div style="flex:1;min-width:160px;"><div style="font-weight:700;font-family:'DM Mono',monospace;font-size:12px;">${esc(h.moldName)}</div>${h.moldGroup?`<div style="color:var(--tx2);font-size:11px;">${esc(h.moldGroup)}</div>`:''}<div style="color:var(--tx2);font-size:11px;margin-top:2px;">Scheduled: <b style="color:var(--tx);">Week ${h.scheduledWkNum||'—'}</b>${h.fiscalWeek?' (WK'+h.fiscalWeek+' · FY'+(h.fiscalYear||'')+')':''}</div>${h.notes?`<div style="color:var(--tx2);font-size:11px;margin-top:3px;font-style:italic;">"${esc(h.notes)}"</div>`:''}</div><div style="text-align:right;flex-shrink:0;"><div style="color:#30D158;font-size:12px;font-weight:600;">PM Completed</div><div style="color:var(--tx);font-size:12px;margin-top:1px;">${esc(h.doneDate||'—')}</div><div style="color:var(--tx2);font-size:11px;margin-top:1px;">By: <b style="color:var(--tx2);">${esc(h.doneBy||'—')}</b></div></div></div>`).join('');
 }
 function clearPMHistFilters(){const s=document.getElementById('pm-history-search');if(s)s.value='';const w=document.getElementById('pm-hist-wk');if(w)w.value='';renderPMHistory();}
 
@@ -1836,8 +1819,8 @@ async function pmConfirmDone(){
   const dateVal=document.getElementById('pmDoneDate').value,person=document.getElementById('pmDonePerson').value,notes=document.getElementById('pmDoneNotes').value.trim(),wkNumVal=parseInt(document.getElementById('pmDoneSchedWk').value);
   if(!dateVal){toast('⚠️ Please enter the PM date.');return;}if(!person){toast('⚠️ Please select a technician.');return;}if(!wkNumVal){toast('⚠️ Please select the scheduled week.');return;}
   const btn=document.getElementById('pmDoneConfirmBtn');btn.textContent='Saving...';btn.disabled=true;
-  const histEntry={moldId:id,moldName:m.name,moldGroup:m.group||'',scheduledWkNum:wkNumVal,fiscalYear:26,fiscalWeek:600+wkNumVal,doneDate:dateVal,doneBy:person||'—',notes:notes||'',recordedAt:new Date().toLocaleDateString('en-MY'),source:'manual'};
-  const r=await pmAtomicCall('pmAppendHistory',{hMoldId:String(id),hMoldName:m.name,hMoldGroup:m.group||'',hSchedWkNum:String(wkNumVal),hFiscalYear:'26',hFiscalWeek:String(600+wkNumVal),hDoneDate:dateVal,hDoneBy:person||'',hNotes:notes||'',hRecordedAt:new Date().toLocaleDateString('en-MY'),hSource:'manual'});
+  const histEntry={moldId:id,moldName:m.name,moldGroup:m.group||'',scheduledWkNum:wkNumVal,fiscalYear:FY2,fiscalWeek:FY_BASE+wkNumVal,doneDate:dateVal,doneBy:person||'—',notes:notes||'',recordedAt:new Date().toLocaleDateString('en-MY'),source:'manual'};
+  const r=await pmAtomicCall('pmAppendHistory',{hMoldId:String(id),hMoldName:m.name,hMoldGroup:m.group||'',hSchedWkNum:String(wkNumVal),hFiscalYear:String(FY2),hFiscalWeek:String(FY_BASE+wkNumVal),hDoneDate:dateVal,hDoneBy:person||'',hNotes:notes||'',hRecordedAt:new Date().toLocaleDateString('en-MY'),hSource:'manual'});
   if(r&&r.status==='ok')pmHistory.push(histEntry);btn.textContent='✅ Confirm Done';btn.disabled=false;closeMod('pmDoneMod');renderPMDashboard();renderPMMolds();renderPMHistory();if(r&&r.status==='ok')toast('✅ PM marked done & saved to Google Sheets!');
 }
 
